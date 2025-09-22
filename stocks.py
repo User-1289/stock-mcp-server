@@ -14,6 +14,21 @@ async def get_historical_data(symbol: str, period: str = "1mo") -> Any:
     stock = yf.Ticker(symbol)
     return stock.history(period=period).to_dict()
 
+@mcp.tool()
+async def get_intraday_data(symbol: str, interval: str = "5m") -> Any:
+    stock = yf.Ticker(symbol)
+    return stock.history(period="1d", interval=interval).to_dict()
+
+@mcp.tool()
+async def get_company_info(symbol: str) -> Any:
+    stock = yf.Ticker(symbol)
+    return stock.info
+
+@mcp.tool()
+async def get_financials(symbol: str) -> Any:
+    stock = yf.Ticker(symbol)
+    return stock.financials.to_dict()
+
 if __name__ == "__main__":
     # Initialize and run the server
     mcp.run(transport='stdio')
